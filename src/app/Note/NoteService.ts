@@ -15,6 +15,10 @@ export class NoteService {
     return this.noteRepository.findByAuthor(authorId);
   };
 
+  searchByAuthor = (authorId: string, query: string): Promise<NoteEntity[]> => {
+    return this.noteRepository.searchByAuthor(authorId, query);
+  };
+
   findById = async (noteId: string, userId: string): Promise<NoteEntity> => {
     const note = await this.noteRepository.findById(noteId);
 
@@ -33,6 +37,12 @@ export class NoteService {
     await this.findById(noteId, userId);
 
     return this.noteRepository.update(noteId, updateNoteDto);
+  };
+
+  delete = async (noteId: string, userId: string): Promise<NoteEntity> => {
+    await this.findById(noteId, userId);
+
+    return this.noteRepository.delete(noteId) as Promise<NoteEntity>;
   };
 
   isOwner = (note: NoteEntity, userId: string): boolean => {

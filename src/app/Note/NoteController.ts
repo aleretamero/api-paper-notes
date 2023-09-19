@@ -4,6 +4,7 @@ import { ReturnNoteDto } from "./dtos/ReturnNoteDto";
 import { createNoteSchema } from "./schemas/createNoteSchema";
 import { idSchema } from "../../helpers/schemas/idSchema";
 import { updateNoteSchema } from "./schemas/updateNoteSchema";
+import { querySchema } from "../../helpers/schemas/querySchema";
 
 export class NoteController {
   constructor(private readonly noteService: NoteService) {}
@@ -66,6 +67,25 @@ export class NoteController {
     }
   };
 
+  search = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> => {
+    try {
+      const userId = req.userId!;
+      const { query } = querySchema.parse(req.query);
+
+      const note = await this.noteService
+        .searchByAuthor(userId, query)
+        .then((notes) => notes.map((note) => new ReturnNoteDto(note)));
+
+      res.status(200).json(note);
+    } catch (error) {
+      next(error);
+    }
+  };
+
   update = async (
     req: Request,
     res: Response,
@@ -82,6 +102,26 @@ export class NoteController {
         .then((note) => new ReturnNoteDto(note));
 
       res.status(200).json(note);
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  delete = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> => {
+    try {
+      const userId = req.userId!;
+
+      const { id: noteId } = idSchema.parse(req.params);
+
+      const note = await this.noteService
+        .delete(noteId, userId)
+        .then((note) => new ReturnNoteDto(note));
+
+      res.status(204).json(note);
     } catch (error) {
       next(error);
     }

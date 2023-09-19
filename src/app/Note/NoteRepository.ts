@@ -16,6 +16,10 @@ export class NoteRepository {
     return Note.findById(id);
   };
 
+  searchByAuthor = (authorId: string, query: string): Promise<NoteEntity[]> => {
+    return Note.find({ author: authorId }).find({ $text: { $search: query } });
+  };
+
   update = async (
     id: string,
     { title, body }: UpdateNoteDto,
@@ -25,5 +29,9 @@ export class NoteRepository {
       { $set: { title, body, updated_at: new Date() } },
       { upsert: true, new: true },
     );
+  };
+
+  delete = async (id: string): Promise<NoteEntity | null> => {
+    return Note.findByIdAndDelete(id);
   };
 }
