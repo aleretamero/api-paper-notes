@@ -2,8 +2,8 @@ import "dotenv/config";
 import { app } from "./App";
 import { run } from "./database";
 
-const PORT = Number(process.env.PORT) ?? 3333;
 const HOST = process.env.HOST ?? "localhost";
+const PORT = Number(process.env.PORT) ?? 3333;
 
 run()
   .then(() => {

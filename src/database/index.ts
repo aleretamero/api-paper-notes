@@ -3,13 +3,13 @@ import mongoose from "mongoose";
 export const run = async () => {
   console.log("Connecting...");
 
-  await mongoose.connect("mongodb://localhost:27017/", {
-    dbName: "paper-notes",
+  await mongoose.connect(process.env.DB_URI!, {
+    dbName: process.env.DB_NAME,
     auth: {
-      username: "root",
-      password: "Senha#123",
+      username: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD,
     },
   });
 
-  console.log("Connection database with successfully 😎");
+  console.log("Connection successfully 😎");
 };
