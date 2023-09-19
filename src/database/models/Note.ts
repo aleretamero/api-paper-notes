@@ -13,4 +13,4 @@ const noteSchema = new mongoose.Schema<NoteEntity>({
   },
 }).index({ title: "text", body: "text" });
 
-export const Note = mongoose.model("Note", noteSchema);
+export const Note = mongoose.model<NoteEntity>("Note", noteSchema);
