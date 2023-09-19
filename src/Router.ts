@@ -1,23 +1,18 @@
 import { Router } from "express";
 
+import { userController } from "./app/User/UserModule";
+
 class Routes {
-  public readonly routes = Router();
+  public readonly router = Router();
 
   constructor() {
-    this.userRoutes();
-    this.notesRoutes();
-    this.helloRoutes();
-    this.userRoutes();
-    this.notesRoutes();
+    this.routes();
   }
 
-  private helloRoutes(): void {
-    this.routes.get("/", (_req, res) => res.json({ message: "Hello world!" }));
+  private routes(): void {
+    this.router.get("/", (_req, res) => res.json({ message: "Hello world!" }));
+    this.router.post("/users/register", userController.create);
   }
-
-  private userRoutes(): void {}
-
-  private notesRoutes(): void {}
 }
 
-export const routes = new Routes().routes;
+export const router = new Routes().router;
