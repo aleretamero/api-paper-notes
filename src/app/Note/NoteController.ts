@@ -3,6 +3,7 @@ import { NoteService } from "./NoteService";
 import { ReturnNoteDto } from "./dtos/ReturnNoteDto";
 import { createNoteSchema } from "./schemas/createNoteSchema";
 import { idSchema } from "../../helpers/schemas/idSchema";
+import { updateNoteSchema } from "./schemas/updateNoteSchema";
 
 export class NoteController {
   constructor(private readonly noteService: NoteService) {}
@@ -57,6 +58,27 @@ export class NoteController {
 
       const note = await this.noteService
         .findById(noteId, userId)
+        .then((note) => new ReturnNoteDto(note));
+
+      res.status(200).json(note);
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  update = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> => {
+    try {
+      const userId = req.userId!;
+
+      const { id: noteId } = idSchema.parse(req.params);
+      const updateNoteDto = updateNoteSchema.parse(req.body);
+
+      const note = await this.noteService
+        .update(noteId, userId, updateNoteDto)
         .then((note) => new ReturnNoteDto(note));
 
       res.status(200).json(note);

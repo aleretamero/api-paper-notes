@@ -1,5 +1,6 @@
 import { NoteRepository } from "./NoteRepository";
 import { CreateNoteDto } from "./dtos/CreateNoteDto";
+import { UpdateNoteDto } from "./dtos/UpdateNoteDto";
 
 import { NoteEntity } from "./entity/NoteEntity";
 
@@ -22,6 +23,16 @@ export class NoteService {
     if (!this.isOwner(note, userId)) throw new Error("Permission denied");
 
     return note;
+  };
+
+  update = async (
+    noteId: string,
+    userId: string,
+    updateNoteDto: UpdateNoteDto,
+  ): Promise<NoteEntity> => {
+    await this.findById(noteId, userId);
+
+    return this.noteRepository.update(noteId, updateNoteDto);
   };
 
   isOwner = (note: NoteEntity, userId: string): boolean => {
