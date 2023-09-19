@@ -45,10 +45,7 @@ class Authenticated {
     token: string,
   ): ReturnUserDto | undefined => {
     try {
-      const payload = verify(
-        token,
-        process.env.JWT_SECRET as string,
-      ) as ReturnUserDto;
+      const payload = verify(token, process.env.JWT_TOKEN!) as ReturnUserDto;
 
       return payload;
     } catch (error) {
