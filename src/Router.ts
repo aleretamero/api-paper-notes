@@ -24,6 +24,7 @@ class Routes {
 
   private noteRoutes(): void {
     this.router.post("/notes", isAuthenticated, noteController.create);
+    this.router.get("/notes", isAuthenticated, noteController.index);
     this.router.get("/notes/:id", isAuthenticated, noteController.show);
   }
 }

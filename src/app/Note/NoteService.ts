@@ -6,8 +6,12 @@ import { NoteEntity } from "./entity/NoteEntity";
 export class NoteService {
   constructor(private readonly noteRepository: NoteRepository) {}
 
-  create = async (createNoteDto: CreateNoteDto): Promise<NoteEntity> => {
+  create = (createNoteDto: CreateNoteDto): Promise<NoteEntity> => {
     return this.noteRepository.create(createNoteDto);
+  };
+
+  findByAuthor = (authorId: string): Promise<NoteEntity[]> => {
+    return this.noteRepository.findByAuthor(authorId);
   };
 
   findById = async (noteId: string, userId: string): Promise<NoteEntity> => {

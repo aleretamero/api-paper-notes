@@ -7,6 +7,10 @@ export class NoteRepository {
     return Note.create(createNoteDto);
   };
 
+  findByAuthor = (authorId: string): Promise<NoteEntity[]> => {
+    return Note.find({ author: authorId });
+  };
+
   findById = (id: string): Promise<NoteEntity | null> => {
     return Note.findById(id);
   };

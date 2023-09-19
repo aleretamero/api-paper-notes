@@ -15,9 +15,9 @@ export class UserController {
     try {
       const createUserDto = createUserSchema.parse(req.body);
 
-      const user = new ReturnUserDto(
-        await this.userService.create(createUserDto),
-      );
+      const user = await this.userService
+        .create(createUserDto)
+        .then((user) => new ReturnUserDto(user));
 
       res.status(201).json(user);
     } catch (error) {

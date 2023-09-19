@@ -17,11 +17,29 @@ export class NoteController {
 
       const createNoteDto = { ...createNoteSchema.parse(req.body), author };
 
-      const note = new ReturnNoteDto(
-        await this.noteService.create(createNoteDto),
-      );
+      const note = await this.noteService
+        .create({ ...createNoteDto, author })
+        .then((note) => new ReturnNoteDto(note));
 
       res.status(201).json(note);
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  index = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> => {
+    try {
+      const userId = req.userId!;
+
+      const notes = await this.noteService
+        .findByAuthor(userId)
+        .then((notes) => notes.map((note) => new ReturnNoteDto(note)));
+
+      res.status(200).json(notes);
     } catch (error) {
       next(error);
     }
@@ -37,9 +55,9 @@ export class NoteController {
 
       const { id: noteId } = idSchema.parse(req.params);
 
-      const note = new ReturnNoteDto(
-        await this.noteService.findById(noteId, userId),
-      );
+      const note = await this.noteService
+        .findById(noteId, userId)
+        .then((note) => new ReturnNoteDto(note));
 
       res.status(200).json(note);
     } catch (error) {
