@@ -7,6 +7,10 @@ export class UserRepository {
     return User.create(createUserDto);
   };
 
+  findById = (id: string): Promise<UserEntity | null> => {
+    return User.findOne({ _id: id });
+  };
+
   findByEmail = (email: string): Promise<UserEntity | null> => {
     return User.findOne({ email });
   };

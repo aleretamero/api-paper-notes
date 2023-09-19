@@ -18,6 +18,22 @@ export class UserService {
     return this.userRepository.create(createUserDto);
   };
 
+  findById = async (id: string): Promise<UserEntity> => {
+    const user = await this.userRepository.findById(id);
+
+    if (!user) throw new Error(`User: _id ${id} not found!`);
+
+    return user;
+  };
+
+  findByEmail = async (email: string): Promise<UserEntity> => {
+    const user = await this.userRepository.findByEmail(email);
+
+    if (!user) throw new Error(`User: ${email} not found!`);
+
+    return user;
+  };
+
   login = async ({
     email,
     password,
@@ -37,13 +53,5 @@ export class UserService {
     });
 
     return new ReturnLoginDto(user, token);
-  };
-
-  findByEmail = async (email: string): Promise<UserEntity> => {
-    const user = await this.userRepository.findByEmail(email);
-
-    if (!user) throw new Error(`User: ${email} not found!`);
-
-    return user;
   };
 }

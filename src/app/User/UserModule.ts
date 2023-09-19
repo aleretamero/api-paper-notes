@@ -4,7 +4,7 @@ import { UserService } from "./UserService";
 
 class UserModule {
   private readonly userRepository: UserRepository;
-  private readonly userService: UserService;
+  public readonly userService: UserService;
   public readonly userController: UserController;
 
   constructor() {
@@ -14,4 +14,7 @@ class UserModule {
   }
 }
 
-export const userController = new UserModule().userController;
+const userModule = new UserModule();
+
+export const userService = userModule.userService;
+export const userController = userModule.userController;
