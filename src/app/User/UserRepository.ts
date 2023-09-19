@@ -3,11 +3,11 @@ import { CreateUserDto } from "./dtos/CreateUserDto";
 import { UserEntity } from "./entity/UserEntity";
 
 export class UserRepository {
-  create = async (createUserDto: CreateUserDto): Promise<UserEntity> => {
-    const user = new User(createUserDto);
+  create = (createUserDto: CreateUserDto): Promise<UserEntity> => {
+    return User.create(createUserDto);
+  };
 
-    await user.save();
-
-    return user;
+  findByEmail = (email: string): Promise<UserEntity | null> => {
+    return User.findOne({ email });
   };
 }

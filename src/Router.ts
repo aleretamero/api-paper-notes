@@ -6,12 +6,17 @@ class Routes {
   public readonly router = Router();
 
   constructor() {
-    this.routes();
+    this.indexRoutes();
+    this.userRoutes();
   }
 
-  private routes(): void {
+  private indexRoutes(): void {
     this.router.get("/", (_req, res) => res.json({ message: "Hello world!" }));
+  }
+
+  private userRoutes(): void {
     this.router.post("/users/register", userController.create);
+    this.router.post("/users/login", userController.login);
   }
 }
 
