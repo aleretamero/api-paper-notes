@@ -1,4 +1,4 @@
-import type { ErrorRequestHandler } from "express";
+import { ErrorRequestHandler } from "express";
 
 class ErrorHandler {
   readonly errorHandler: ErrorRequestHandler = async (error, req, res) => {

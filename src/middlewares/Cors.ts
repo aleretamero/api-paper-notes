@@ -1,4 +1,4 @@
-import { type CorsOptions } from "cors";
+import { CorsOptions } from "cors";
 
 class Cors {
   public readonly corsOptions: CorsOptions;
@@ -16,7 +16,7 @@ class Cors {
         }
       },
       methods: ["GET", "POST", "PUT", "DELETE"],
-      allowedHeaders: ["Content-Type", "Authorization", "cache"],
+      allowedHeaders: ["Content-Type", "Authorization"],
     };
   }
 }
