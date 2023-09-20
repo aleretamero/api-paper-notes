@@ -5,7 +5,7 @@ class Cors {
   private readonly whiteList: string[];
 
   constructor() {
-    this.whiteList = ["*"];
+    this.whiteList = ["http://localhost:3333"];
 
     this.corsOptions = {
       origin: (origin, callback) => {

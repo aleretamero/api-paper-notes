@@ -1,10 +1,17 @@
 import { ErrorRequestHandler } from "express";
 
 class ErrorHandler {
-  readonly errorHandler: ErrorRequestHandler = async (error, req, res) => {
+  readonly errorHandler: ErrorRequestHandler = async (
+    error,
+    req,
+    res,
+    next,
+  ) => {
     if (error) {
-      return res.status(500).json({ error });
+      console.log(error);
     }
+
+    next();
   };
 }
 
