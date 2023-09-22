@@ -20,6 +20,10 @@ export class NoteRepository {
     return Note.find({ author: authorId }).find({ $text: { $search: query } });
   };
 
+  searchBodiesByAuthor = (authorId: string): Promise<NoteEntity[]> => {
+    return Note.find({ author: authorId }, "body");
+  };
+
   update = async (
     id: string,
     { title, body }: UpdateNoteDto,

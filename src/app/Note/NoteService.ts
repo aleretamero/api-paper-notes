@@ -19,6 +19,10 @@ export class NoteService {
     return this.noteRepository.searchByAuthor(authorId, query);
   };
 
+  searchBodiesByAuthor = (authorId: string): Promise<NoteEntity[]> => {
+    return this.noteRepository.searchBodiesByAuthor(authorId);
+  };
+
   findById = async (noteId: string, userId: string): Promise<NoteEntity> => {
     const note = await this.noteRepository.findById(noteId);
 

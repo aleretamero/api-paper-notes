@@ -86,6 +86,21 @@ export class NoteController {
     }
   };
 
+  searchBodies = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> => {
+    try {
+      const userId = req.userId!;
+
+      const note = await this.noteService.searchBodiesByAuthor(userId);
+      res.status(200).json(note);
+    } catch (error) {
+      next(error);
+    }
+  };
+
   update = async (
     req: Request,
     res: Response,

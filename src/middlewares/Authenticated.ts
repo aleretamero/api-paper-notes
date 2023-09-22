@@ -34,6 +34,7 @@ class Authenticated {
       }
 
       req.userId = payload._id;
+      req.user = payload;
 
       next();
     } catch (error) {

@@ -40,4 +40,18 @@ export class UserController {
       next(error);
     }
   };
+
+  show = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> => {
+    try {
+      const user = req.user!;
+
+      res.status(200).json(user);
+    } catch (error) {
+      next(error);
+    }
+  };
 }
