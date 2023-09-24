@@ -5,7 +5,11 @@ class Cors {
   private readonly whiteList: string[];
 
   constructor() {
-    this.whiteList = ["http://localhost:3333", "http://localhost:5173"];
+    this.whiteList = [
+      "http://localhost:3333",
+      "http://localhost:5173",
+      "https://client-paper-notes.vercel.app",
+    ];
 
     this.corsOptions = {
       origin: (origin, callback) => {
