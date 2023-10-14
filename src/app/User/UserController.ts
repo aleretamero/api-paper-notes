@@ -1,13 +1,15 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Request, Response, Router } from "express";
 import { UserService } from "./UserService";
 import { ReturnUserDto } from "./dtos/ReturnUserDto";
 import { createUserSchema } from "./schemas/createUserSchema";
 import { loginUserSchema } from "./schemas/loginUserSchema";
 
 export class UserController {
+  public readonly userRouter = Router();
+
   constructor(private readonly userService: UserService) {}
 
-  create = async (
+  register = async (
     req: Request,
     res: Response,
     next: NextFunction,

@@ -4,7 +4,7 @@ import { NoteService } from "./NoteService";
 
 class NoteModule {
   private readonly noteRepository: NoteRepository;
-  public readonly noteService: NoteService;
+  private readonly noteService: NoteService;
   public readonly noteController: NoteController;
 
   constructor() {

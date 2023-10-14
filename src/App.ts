@@ -3,8 +3,10 @@ import cors from "cors";
 
 import { errorHandler } from "./middlewares/ErrorHandler";
 import { corsOptions } from "./middlewares/Cors";
-import { router } from "./Router";
 import { resolve } from "path";
+
+import { userRouter } from "./app/User/UserRouter";
+import { noteRouter } from "./app/Note/NoteRouter";
 
 class App {
   public readonly app: Express;
@@ -12,8 +14,13 @@ class App {
   constructor() {
     this.app = express();
     this.middlewares();
-    this.app.use(router);
+    this.routes();
     this.errorHandler();
+  }
+
+  private routes(): void {
+    this.app.use("/users", userRouter);
+    this.app.use("/notes", noteRouter);
   }
 
   private middlewares(): void {
