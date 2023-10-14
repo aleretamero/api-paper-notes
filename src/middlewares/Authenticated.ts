@@ -3,11 +3,12 @@ import { verify } from "jsonwebtoken";
 import { z } from "zod";
 
 import { userService } from "../app/User/UserModule";
-import { UserService } from "../app/User/UserService";
+import { IUserService } from "../app/User/interfaces/IUserService";
+
 import { ReturnUserDto } from "../app/User/dtos/ReturnUserDto";
 
 class Authenticated {
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly userService: IUserService) {}
 
   private readonly schema = z.object({
     authorization: z.string(),

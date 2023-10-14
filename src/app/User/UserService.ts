@@ -1,4 +1,3 @@
-import { UserRepository } from "./UserRepository";
 import { CreateUserDto } from "./dtos/CreateUserDto";
 
 import bcrypt from "bcrypt";
@@ -8,9 +7,11 @@ import { UserEntity } from "./entity/UserEntity";
 import { LoginUserDto } from "./dtos/LoginUserDto";
 import { ReturnUserDto } from "./dtos/ReturnUserDto";
 import { ReturnLoginDto } from "./dtos/ReturnLoginDto";
+import { IUserRepository } from "./interfaces/IUserRepository";
+import { IUserService } from "./interfaces/IUserService";
 
-export class UserService {
-  constructor(private readonly userRepository: UserRepository) {}
+export class UserService implements IUserService {
+  constructor(private readonly userRepository: IUserRepository) {}
 
   create = async (createUserDto: CreateUserDto): Promise<UserEntity> => {
     createUserDto.password = await bcrypt.hash(createUserDto.password, 10);

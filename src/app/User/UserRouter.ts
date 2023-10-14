@@ -1,12 +1,12 @@
 import { Router } from "express";
 import { isAuthenticated } from "../../middlewares/Authenticated";
 import { userController } from "./UserModule";
+import { IUserController } from "./interfaces/IUserController";
 
 class UserRouter {
   public readonly router = Router();
-  private readonly userController = userController;
 
-  constructor() {
+  constructor(private readonly userController: IUserController) {
     this.routes();
   }
 
@@ -17,4 +17,4 @@ class UserRouter {
   }
 }
 
-export const userRouter = new UserRouter().router;
+export const userRouter = new UserRouter(userController).router;

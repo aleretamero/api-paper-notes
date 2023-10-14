@@ -1,11 +1,14 @@
 import { UserController } from "./UserController";
 import { UserRepository } from "./UserRepository";
 import { UserService } from "./UserService";
+import { IUserController } from "./interfaces/IUserController";
+import { IUserRepository } from "./interfaces/IUserRepository";
+import { IUserService } from "./interfaces/IUserService";
 
 class UserModule {
-  private readonly userRepository: UserRepository;
-  public readonly userService: UserService;
-  public readonly userController: UserController;
+  private readonly userRepository: IUserRepository;
+  public readonly userService: IUserService;
+  public readonly userController: IUserController;
 
   constructor() {
     this.userRepository = new UserRepository();
