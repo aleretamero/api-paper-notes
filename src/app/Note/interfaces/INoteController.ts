@@ -1,21 +1,17 @@
-import { NextFunction, Request, Response } from "express";
+import { RequestHandler } from "express";
 
 export interface INoteController {
-  create: (req: Request, res: Response, next: NextFunction) => Promise<void>;
+  create: RequestHandler;
 
-  index: (req: Request, res: Response, next: NextFunction) => Promise<void>;
+  index: RequestHandler;
 
-  show: (req: Request, res: Response, next: NextFunction) => Promise<void>;
+  show: RequestHandler;
 
-  search: (req: Request, res: Response, next: NextFunction) => Promise<void>;
+  search: RequestHandler;
 
-  searchBodies: (
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) => Promise<void>;
+  searchBodies: RequestHandler;
 
-  update: (req: Request, res: Response, next: NextFunction) => Promise<void>;
+  update: RequestHandler;
 
-  delete: (req: Request, res: Response, next: NextFunction) => Promise<void>;
+  delete: RequestHandler;
 }
