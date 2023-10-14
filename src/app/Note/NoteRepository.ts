@@ -2,8 +2,9 @@ import { Note } from "../../database/models/Note";
 import { CreateNoteDto } from "./dtos/CreateNoteDto";
 import { UpdateNoteDto } from "./dtos/UpdateNoteDto";
 import { NoteEntity } from "./entity/NoteEntity";
+import { INoteRepository } from "./interfaces/INoteRepository";
 
-export class NoteRepository {
+export class NoteRepository implements INoteRepository {
   create = (createNoteDto: CreateNoteDto): Promise<NoteEntity> => {
     return Note.create(createNoteDto);
   };

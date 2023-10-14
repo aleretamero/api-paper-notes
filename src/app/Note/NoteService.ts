@@ -1,11 +1,12 @@
-import { NoteRepository } from "./NoteRepository";
 import { CreateNoteDto } from "./dtos/CreateNoteDto";
 import { UpdateNoteDto } from "./dtos/UpdateNoteDto";
 
 import { NoteEntity } from "./entity/NoteEntity";
+import { INoteRepository } from "./interfaces/INoteRepository";
+import { INoteService } from "./interfaces/INoteService";
 
-export class NoteService {
-  constructor(private readonly noteRepository: NoteRepository) {}
+export class NoteService implements INoteService {
+  constructor(private readonly noteRepository: INoteRepository) {}
 
   create = (createNoteDto: CreateNoteDto): Promise<NoteEntity> => {
     return this.noteRepository.create(createNoteDto);

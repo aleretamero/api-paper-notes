@@ -1,12 +1,12 @@
 import { Router } from "express";
 import { isAuthenticated } from "../../middlewares/Authenticated";
 import { noteController } from "./NoteModule";
+import { INoteController } from "./interfaces/INoteController";
 
 class NoteRouter {
   public readonly router = Router();
-  private readonly noteController = noteController;
 
-  constructor() {
+  constructor(private readonly noteController: INoteController) {
     this.routes();
   }
 
@@ -25,4 +25,4 @@ class NoteRouter {
   }
 }
 
-export const noteRouter = new NoteRouter().router;
+export const noteRouter = new NoteRouter(noteController).router;

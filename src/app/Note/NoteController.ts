@@ -1,13 +1,14 @@
 import { NextFunction, Request, Response } from "express";
-import { NoteService } from "./NoteService";
 import { ReturnNoteDto } from "./dtos/ReturnNoteDto";
 import { createNoteSchema } from "./schemas/createNoteSchema";
 import { idSchema } from "../../helpers/schemas/idSchema";
 import { updateNoteSchema } from "./schemas/updateNoteSchema";
 import { querySchema } from "../../helpers/schemas/querySchema";
+import { INoteController } from "./interfaces/INoteController";
+import { INoteService } from "./interfaces/INoteService";
 
-export class NoteController {
-  constructor(private readonly noteService: NoteService) {}
+export class NoteController implements INoteController {
+  constructor(private readonly noteService: INoteService) {}
 
   create = async (
     req: Request,
