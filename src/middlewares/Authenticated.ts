@@ -35,7 +35,11 @@ class Authenticated {
       }
 
       req.userId = payload._id;
-      req.user = payload;
+      req.user = {
+        _id: payload._id,
+        name: payload.name,
+        email: payload.email,
+      };
 
       next();
     } catch (error) {

@@ -13,7 +13,7 @@ class UserRouter {
   private routes(): void {
     this.router.post("/register", this.userController.register);
     this.router.post("/login", this.userController.login);
-    this.router.post("/show", isAuthenticated, this.userController.show);
+    this.router.get("/show", isAuthenticated, this.userController.show);
   }
 }
 
