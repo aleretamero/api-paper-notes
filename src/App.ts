@@ -7,6 +7,7 @@ import { resolve } from "path";
 
 import { userRouter } from "./app/User/UserRouter";
 import { noteRouter } from "./app/Note/NoteRouter";
+import { commentRouter } from "./app/Comment/CommentRouter";
 
 class App {
   public readonly app: Express;
@@ -21,6 +22,7 @@ class App {
   private routes(): void {
     this.app.use("/users", userRouter);
     this.app.use("/notes", noteRouter);
+    this.app.use("/comments", commentRouter);
   }
 
   private middlewares(): void {
