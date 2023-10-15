@@ -1,9 +1,9 @@
-import { RequestHandler } from "express";
+import { NextFunction, Request, Response } from "express";
 
 export interface IUserController {
-  register: RequestHandler;
+  register: (req: Request, res: Response, next: NextFunction) => Promise<void>;
 
-  login: RequestHandler;
+  login: (req: Request, res: Response, next: NextFunction) => Promise<void>;
 
-  show: RequestHandler;
+  show: (req: Request, res: Response, next: NextFunction) => Promise<void>;
 }

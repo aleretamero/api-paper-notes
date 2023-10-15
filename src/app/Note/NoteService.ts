@@ -40,7 +40,7 @@ export class NoteService implements INoteService {
 
     if (!note) throw new NotFound(`Note: _id ${noteId} not found!`);
 
-    if (!this.isOwner(note, userId))
+    if (!note.public && !this.isOwner(note, userId))
       throw new Unauthorized("Permission denied");
 
     return new ReturnNoteDto(note);

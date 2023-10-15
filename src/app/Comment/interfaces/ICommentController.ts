@@ -1,13 +1,17 @@
-import { RequestHandler } from "express";
+import { NextFunction, Request, Response } from "express";
 
 export interface ICommentController {
-  create: RequestHandler;
+  create: (req: Request, res: Response, next: NextFunction) => Promise<void>;
 
-  getAllByNoteId: RequestHandler;
+  getAllByNoteId: (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => Promise<void>;
 
-  show: RequestHandler;
+  show: (req: Request, res: Response, next: NextFunction) => Promise<void>;
 
-  update: RequestHandler;
+  update: (req: Request, res: Response, next: NextFunction) => Promise<void>;
 
-  delete: RequestHandler;
+  delete: (req: Request, res: Response, next: NextFunction) => Promise<void>;
 }
