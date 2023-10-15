@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response } from "express";
-import { ReturnUserDto } from "./dtos/ReturnUserDto";
 import { createUserSchema } from "./schemas/createUserSchema";
 import { loginUserSchema } from "./schemas/loginUserSchema";
 import { IUserService } from "./interfaces/IUserService";
@@ -16,9 +15,7 @@ export class UserController implements IUserController {
     try {
       const createUserDto = createUserSchema.parse(req.body);
 
-      const user = await this.userService
-        .create(createUserDto)
-        .then((user) => new ReturnUserDto(user));
+      const user = await this.userService.create(createUserDto);
 
       res.status(201).json(user);
     } catch (error) {

@@ -1,14 +1,12 @@
 import { CreateUserDto } from "../dtos/CreateUserDto";
-import { UserEntity } from "../entity/UserEntity";
 import { LoginUserDto } from "../dtos/LoginUserDto";
 import { ReturnLoginDto } from "../dtos/ReturnLoginDto";
+import { ReturnUserDto } from "../dtos/ReturnUserDto";
 
 export interface IUserService {
-  create: (createUserDto: CreateUserDto) => Promise<UserEntity>;
+  create: (createUserDto: CreateUserDto) => Promise<ReturnUserDto>;
 
-  findById: (id: string) => Promise<UserEntity>;
-
-  findByEmail: (email: string) => Promise<UserEntity>;
+  findById: (id: string) => Promise<ReturnUserDto>;
 
   login: (loginUserDto: LoginUserDto) => Promise<ReturnLoginDto>;
 }

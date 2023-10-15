@@ -3,7 +3,6 @@ import { CreateUserDto } from "./dtos/CreateUserDto";
 import bcrypt from "bcrypt";
 import { sign } from "jsonwebtoken";
 
-import { UserEntity } from "./entity/UserEntity";
 import { LoginUserDto } from "./dtos/LoginUserDto";
 import { ReturnUserDto } from "./dtos/ReturnUserDto";
 import { ReturnLoginDto } from "./dtos/ReturnLoginDto";
@@ -15,33 +14,28 @@ import { BadRequest } from "../../helpers/classes/BadRequest";
 export class UserService implements IUserService {
   constructor(private readonly userRepository: IUserRepository) {}
 
-  create = async (createUserDto: CreateUserDto): Promise<UserEntity> => {
+  create = async (createUserDto: CreateUserDto): Promise<ReturnUserDto> => {
     createUserDto.password = await bcrypt.hash(createUserDto.password, 10);
 
-    return this.userRepository.create(createUserDto);
+    const user = await this.userRepository.create(createUserDto);
+
+    return new ReturnUserDto(user);
   };
 
-  findById = async (id: string): Promise<UserEntity> => {
+  findById = async (id: string): Promise<ReturnUserDto> => {
     const user = await this.userRepository.findById(id);
 
     if (!user) throw new NotFound(`User: _id ${id} not found!`);
 
-    return user;
+    return new ReturnUserDto(user)
   };
 
-  findByEmail = async (email: string): Promise<UserEntity> => {
-    const user = await this.userRepository.findByEmail(email);
-
-    if (!user) throw new NotFound(`User: ${email} not found!`);
-
-    return user;
-  };
 
   login = async ({
     email,
     password,
   }: LoginUserDto): Promise<ReturnLoginDto> => {
-    const user = await this.findByEmail(email).catch(() => undefined);
+    const user = await this.userRepository.findByEmail(email);
 
     if (!user) throw new BadRequest("Invalid username or password");
 

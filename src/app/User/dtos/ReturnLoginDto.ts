@@ -1,5 +1,5 @@
 import { UserEntity } from "../entity/UserEntity";
-import { ReturnUserDto } from './ReturnUserDto';
+import { ReturnUserDto } from "./ReturnUserDto";
 
 export class ReturnLoginDto {
   public readonly user: ReturnUserDto;
