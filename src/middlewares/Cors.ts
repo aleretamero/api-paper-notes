@@ -3,13 +3,10 @@ import { CorsOptions } from "cors";
 class Cors {
   public readonly corsOptions: CorsOptions;
   private readonly whiteList: string[];
+  private readonly NODE_ENV = process.env.NODE_ENV;
 
   constructor() {
-    this.whiteList = [
-      "http://localhost:3333",
-      "http://localhost:5173",
-      "https://client-paper-notes.vercel.app",
-    ];
+    this.whiteList = this.getOrigins();
 
     this.corsOptions = {
       origin: (origin, callback) => {
@@ -22,6 +19,18 @@ class Cors {
       methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
       allowedHeaders: ["Content-Type", "Authorization"],
     };
+  }
+
+  private getOrigins() {
+    if (this.NODE_ENV === "development") {
+      return ["http://localhost:3333", "http://localhost:5173"];
+    }
+
+    if (this.NODE_ENV === "production") {
+      return ["https://client-paper-notes.vercel.app"];
+    }
+
+    return [];
   }
 }
 
