@@ -5,7 +5,6 @@ import { NoteEntity } from "./entity/NoteEntity";
 import { INoteRepository } from "./interfaces/INoteRepository";
 
 export class NoteRepository implements INoteRepository {
-  
   create = (createNoteDto: CreateNoteDto): Promise<NoteEntity> => {
     return Note.create(createNoteDto);
   };
@@ -32,6 +31,25 @@ export class NoteRepository implements INoteRepository {
     return Note.findByIdAndUpdate(
       id,
       { $set: { title, body, updated_at: new Date() } },
+      { upsert: true, new: true },
+    );
+  };
+
+  changeStatus = async (id: string, status: boolean): Promise<NoteEntity> => {
+    return Note.findByIdAndUpdate(
+      id,
+      { $set: { done: status } },
+      { upsert: true, new: true },
+    );
+  };
+
+  changeVisibility = async (
+    id: string,
+    visibility: boolean,
+  ): Promise<NoteEntity> => {
+    return Note.findByIdAndUpdate(
+      id,
+      { $set: { public: visibility } },
       { upsert: true, new: true },
     );
   };

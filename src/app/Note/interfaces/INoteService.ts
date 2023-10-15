@@ -1,5 +1,5 @@
 import { CreateNoteDto } from "../dtos/CreateNoteDto";
-import { ReturnNoteDto } from '../dtos/ReturnNoteDto';
+import { ReturnNoteDto } from "../dtos/ReturnNoteDto";
 import { UpdateNoteDto } from "../dtos/UpdateNoteDto";
 import { NoteEntity } from "../entity/NoteEntity";
 
@@ -20,6 +20,10 @@ export interface INoteService {
     userId: string,
     updateNoteDto: UpdateNoteDto,
   ) => Promise<ReturnNoteDto>;
+
+  changeStatus: (noteId: string, userId: string) => Promise<ReturnNoteDto>;
+
+  changeVisibility: (noteId: string, userId: string) => Promise<ReturnNoteDto>;
 
   delete: (noteId: string, userId: string) => Promise<ReturnNoteDto>;
 

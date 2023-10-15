@@ -97,6 +97,42 @@ export class NoteController implements INoteController {
     }
   };
 
+  changeStatus = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> => {
+    try {
+      const userId = req.userId!;
+
+      const { id: noteId } = idSchema.parse(req.params);
+
+      const note = await this.noteService.changeStatus(noteId, userId);
+
+      res.status(200).json(note);
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  changeVisibility = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> => {
+    try {
+      const userId = req.userId!;
+
+      const { id: noteId } = idSchema.parse(req.params);
+
+      const note = await this.noteService.changeVisibility(noteId, userId);
+
+      res.status(200).json(note);
+    } catch (error) {
+      next(error);
+    }
+  };
+
   delete = async (
     req: Request,
     res: Response,

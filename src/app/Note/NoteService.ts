@@ -58,6 +58,31 @@ export class NoteService implements INoteService {
     return new ReturnNoteDto(note);
   };
 
+  changeStatus = async (
+    noteId: string,
+    userId: string,
+  ): Promise<ReturnNoteDto> => {
+    const status = (await this.findById(noteId, userId)).done;
+
+    const note = await this.noteRepository.changeStatus(noteId, !status);
+
+    return new ReturnNoteDto(note);
+  };
+
+  changeVisibility = async (
+    noteId: string,
+    userId: string,
+  ): Promise<ReturnNoteDto> => {
+    const visibility = (await this.findById(noteId, userId)).public;
+
+    const note = await this.noteRepository.changeVisibility(
+      noteId,
+      !visibility,
+    );
+
+    return new ReturnNoteDto(note);
+  };
+
   delete = async (noteId: string, userId: string): Promise<ReturnNoteDto> => {
     await this.findById(noteId, userId);
 

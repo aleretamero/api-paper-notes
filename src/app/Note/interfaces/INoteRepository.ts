@@ -16,5 +16,9 @@ export interface INoteRepository {
 
   update: (id: string, { title, body }: UpdateNoteDto) => Promise<NoteEntity>;
 
+  changeStatus: (id: string, status: boolean) => Promise<NoteEntity>;
+
+  changeVisibility: (id: string, visibility: boolean) => Promise<NoteEntity>;
+
   delete: (id: string) => Promise<NoteEntity | null>;
 }

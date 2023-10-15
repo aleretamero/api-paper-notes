@@ -15,7 +15,17 @@ class NoteRouter {
     this.router.get("/", isAuthenticated, this.noteController.index);
     this.router.get("/search", isAuthenticated, this.noteController.search);
     this.router.get("/:id", isAuthenticated, this.noteController.show);
-    this.router.patch("/:id", isAuthenticated, this.noteController.update);
+    this.router.put(
+      "/changeStatus/:id",
+      isAuthenticated,
+      this.noteController.changeStatus,
+    );
+    this.router.put(
+      "/changeVisibility/:id",
+      isAuthenticated,
+      this.noteController.changeVisibility,
+    );
+    this.router.put("/:id", isAuthenticated, this.noteController.update);
     this.router.delete("/:id", isAuthenticated, this.noteController.delete);
   }
 }
