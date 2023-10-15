@@ -1,9 +1,10 @@
 import express, { Express } from "express";
+import { resolve } from "path";
+
 import cors from "cors";
+import { corsOptions } from "./middlewares/Cors";
 
 import { errorHandler } from "./middlewares/ErrorHandler";
-import { corsOptions } from "./middlewares/Cors";
-import { resolve } from "path";
 
 import { userRouter } from "./app/User/UserRouter";
 import { noteRouter } from "./app/Note/NoteRouter";
