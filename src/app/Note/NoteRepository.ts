@@ -5,11 +5,12 @@ import { NoteEntity } from "./entity/NoteEntity";
 import { INoteRepository } from "./interfaces/INoteRepository";
 
 export class NoteRepository implements INoteRepository {
+  
   create = (createNoteDto: CreateNoteDto): Promise<NoteEntity> => {
     return Note.create(createNoteDto);
   };
 
-  findByAuthor = (authorId: string): Promise<NoteEntity[]> => {
+  findAllByAuthorId = (authorId: string): Promise<NoteEntity[]> => {
     return Note.find({ author: authorId });
   };
 
@@ -17,12 +18,11 @@ export class NoteRepository implements INoteRepository {
     return Note.findById(id);
   };
 
-  searchByAuthor = (authorId: string, query: string): Promise<NoteEntity[]> => {
+  searchAllByAuthorId = (
+    authorId: string,
+    query: string,
+  ): Promise<NoteEntity[]> => {
     return Note.find({ author: authorId }).find({ $text: { $search: query } });
-  };
-
-  searchBodiesByAuthor = (authorId: string): Promise<NoteEntity[]> => {
-    return Note.find({ author: authorId }, "body");
   };
 
   update = async (

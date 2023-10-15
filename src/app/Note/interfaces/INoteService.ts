@@ -1,25 +1,27 @@
 import { CreateNoteDto } from "../dtos/CreateNoteDto";
+import { ReturnNoteDto } from '../dtos/ReturnNoteDto';
 import { UpdateNoteDto } from "../dtos/UpdateNoteDto";
 import { NoteEntity } from "../entity/NoteEntity";
 
 export interface INoteService {
-  create: (createNoteDto: CreateNoteDto) => Promise<NoteEntity>;
+  create: (createNoteDto: CreateNoteDto) => Promise<ReturnNoteDto>;
 
-  findByAuthor: (authorId: string) => Promise<NoteEntity[]>;
+  findAllByAuthorId: (authorId: string) => Promise<ReturnNoteDto[]>;
 
-  searchByAuthor: (authorId: string, query: string) => Promise<NoteEntity[]>;
+  findById: (noteId: string, userId: string) => Promise<ReturnNoteDto>;
 
-  searchBodiesByAuthor: (authorId: string) => Promise<NoteEntity[]>;
-
-  findById: (noteId: string, userId: string) => Promise<NoteEntity>;
+  searchAllByAuthorId: (
+    authorId: string,
+    query: string,
+  ) => Promise<ReturnNoteDto[]>;
 
   update: (
     noteId: string,
     userId: string,
     updateNoteDto: UpdateNoteDto,
-  ) => Promise<NoteEntity>;
+  ) => Promise<ReturnNoteDto>;
 
-  delete: (noteId: string, userId: string) => Promise<NoteEntity>;
+  delete: (noteId: string, userId: string) => Promise<ReturnNoteDto>;
 
   isOwner: (note: NoteEntity, userId: string) => boolean;
 }

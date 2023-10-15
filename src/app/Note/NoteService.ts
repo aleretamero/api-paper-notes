@@ -1,6 +1,7 @@
 import { NotFound } from "../../helpers/classes/NotFound";
 import { Unauthorized } from "../../helpers/classes/Unauthorized";
 import { CreateNoteDto } from "./dtos/CreateNoteDto";
+import { ReturnNoteDto } from "./dtos/ReturnNoteDto";
 import { UpdateNoteDto } from "./dtos/UpdateNoteDto";
 
 import { NoteEntity } from "./entity/NoteEntity";
@@ -10,23 +11,31 @@ import { INoteService } from "./interfaces/INoteService";
 export class NoteService implements INoteService {
   constructor(private readonly noteRepository: INoteRepository) {}
 
-  create = (createNoteDto: CreateNoteDto): Promise<NoteEntity> => {
-    return this.noteRepository.create(createNoteDto);
+  create = async (createNoteDto: CreateNoteDto): Promise<ReturnNoteDto> => {
+    const note = await this.noteRepository.create(createNoteDto);
+
+    return new ReturnNoteDto(note);
   };
 
-  findByAuthor = (authorId: string): Promise<NoteEntity[]> => {
-    return this.noteRepository.findByAuthor(authorId);
+  findAllByAuthorId = async (authorId: string): Promise<ReturnNoteDto[]> => {
+    const notes = await this.noteRepository.findAllByAuthorId(authorId);
+
+    return notes.map((note) => new ReturnNoteDto(note));
   };
 
-  searchByAuthor = (authorId: string, query: string): Promise<NoteEntity[]> => {
-    return this.noteRepository.searchByAuthor(authorId, query);
+  searchAllByAuthorId = async (
+    authorId: string,
+    query: string,
+  ): Promise<ReturnNoteDto[]> => {
+    const notes = await this.noteRepository.searchAllByAuthorId(
+      authorId,
+      query,
+    );
+
+    return notes.map((note) => new ReturnNoteDto(note));
   };
 
-  searchBodiesByAuthor = (authorId: string): Promise<NoteEntity[]> => {
-    return this.noteRepository.searchBodiesByAuthor(authorId);
-  };
-
-  findById = async (noteId: string, userId: string): Promise<NoteEntity> => {
+  findById = async (noteId: string, userId: string): Promise<ReturnNoteDto> => {
     const note = await this.noteRepository.findById(noteId);
 
     if (!note) throw new NotFound(`Note: _id ${noteId} not found!`);
@@ -34,23 +43,27 @@ export class NoteService implements INoteService {
     if (!this.isOwner(note, userId))
       throw new Unauthorized("Permission denied");
 
-    return note;
+    return new ReturnNoteDto(note);
   };
 
   update = async (
     noteId: string,
     userId: string,
     updateNoteDto: UpdateNoteDto,
-  ): Promise<NoteEntity> => {
+  ): Promise<ReturnNoteDto> => {
     await this.findById(noteId, userId);
 
-    return this.noteRepository.update(noteId, updateNoteDto);
+    const note = await this.noteRepository.update(noteId, updateNoteDto);
+
+    return new ReturnNoteDto(note);
   };
 
-  delete = async (noteId: string, userId: string): Promise<NoteEntity> => {
+  delete = async (noteId: string, userId: string): Promise<ReturnNoteDto> => {
     await this.findById(noteId, userId);
 
-    return this.noteRepository.delete(noteId) as Promise<NoteEntity>;
+    const note = (await this.noteRepository.delete(noteId)) as NoteEntity;
+
+    return new ReturnNoteDto(note);
   };
 
   isOwner = (note: NoteEntity, userId: string): boolean => {

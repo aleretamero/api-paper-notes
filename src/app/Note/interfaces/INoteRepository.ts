@@ -5,13 +5,14 @@ import { NoteEntity } from "../entity/NoteEntity";
 export interface INoteRepository {
   create: (createNoteDto: CreateNoteDto) => Promise<NoteEntity>;
 
-  findByAuthor: (authorId: string) => Promise<NoteEntity[]>;
+  findAllByAuthorId: (authorId: string) => Promise<NoteEntity[]>;
 
   findById: (id: string) => Promise<NoteEntity | null>;
 
-  searchByAuthor: (authorId: string, query: string) => Promise<NoteEntity[]>;
-
-  searchBodiesByAuthor: (authorId: string) => Promise<NoteEntity[]>;
+  searchAllByAuthorId: (
+    authorId: string,
+    query: string,
+  ) => Promise<NoteEntity[]>;
 
   update: (id: string, { title, body }: UpdateNoteDto) => Promise<NoteEntity>;
 

@@ -9,8 +9,6 @@ export interface INoteController {
 
   search: RequestHandler;
 
-  searchBodies: RequestHandler;
-
   update: RequestHandler;
 
   delete: RequestHandler;
