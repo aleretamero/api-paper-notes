@@ -12,7 +12,7 @@ class ErrorHandler {
     console.log(error);
 
     if (error instanceof CustomError) {
-      return res.status(error.statusCode).json({ error: error.message });
+      return res.status(error.statusCode).json({ message: error.message });
     }
 
     if (error instanceof ZodError) {
@@ -23,11 +23,15 @@ class ErrorHandler {
         zodErrors[path ?? "error"] = zodError.message;
       });
 
-      return res.status(400).json({ errors: zodErrors });
+      return res.status(400).json({
+        message:
+          "The request data is missing or invalid. Please check your input and try again",
+        errors: zodErrors,
+      });
     }
 
     if (error) {
-      return res.status(500).json({ error: error.message });
+      return res.status(500).json({ message: error.message });
     }
 
     next();

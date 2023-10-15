@@ -21,7 +21,9 @@ class Authenticated {
     next: NextFunction,
   ): Promise<void> => {
     try {
-      const { authorization } = this.schema.parse(req.headers);
+      const authorization = this.parseToken(req);
+
+      if (!authorization) throw new Unauthorized("Unauthorized: Invalid token");
 
       const token = authorization.replace(/^Bearer /, "");
 
@@ -45,6 +47,14 @@ class Authenticated {
       next();
     } catch (error) {
       next(error);
+    }
+  };
+
+  private readonly parseToken = (req: Request): string | undefined => {
+    try {
+      return this.schema.parse(req.headers).authorization;
+    } catch (error) {
+      return undefined;
     }
   };
 

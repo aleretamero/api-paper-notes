@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "API paper-notes",
-    "description": "Essa API tem como objetivo o cadastro de notas para usuários",
+    "description": "Essa API tem como objetivo o cadastro e compartilhamento de notas para usuários",
     "contact": {
       "email": "alexandreretamero@gmail.com"
     },
@@ -12,13 +12,17 @@
     {
       "url": "http://localhost:3333",
       "description": "API de test"
+    },
+    {
+      "url": "https://api-paper-notes.onrender.com",
+      "description": "API"
     }
   ],
   "paths": {
     "/users/register": {
       "post": {
         "summary": "Registro de usuário",
-        "description": "Essa rota será responsável por cadastrar um novo usuário",
+        "description": "Essa rota será responsável por cadastrar um novo usuário, para isso é necessário as propriedades name, email e password.",
         "tags": ["Users"],
         "requestBody": {
           "content": {
@@ -50,9 +54,7 @@
           }
         },
         "responses": {
-          "400": {
-            "description": "BadRequest"
-          },
+
           "201": {
             "description": "Created",
             "content": {
@@ -63,6 +65,36 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "BadRequest",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message":{
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "InternalServerError",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message":{
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -70,7 +102,7 @@
     "/users/login": {
       "post": {
         "summary": "Login de usuário",
-        "description": "Essa rota será responsável por logar um usuário",
+        "description": "Essa rota será responsável por logar um usuário através do email e senha.",
         "tags": ["Users"],
         "requestBody": {
           "content": {
@@ -94,23 +126,12 @@
                   }
                 }
               }
-            },
-            "examples": {
-              "user": {
-                "value": {
-                  "email": "john_doe@email.com",
-                  "password": "Senha#123"
-                }
-              }
             }
           }
         },
         "responses": {
-          "400": {
-            "description": "BadRequest"
-          },
           "200": {
-            "description": "Created",
+            "description": "OK",
             "content": {
               "application/json": {
                 "schema": {
@@ -120,6 +141,86 @@
                       "$ref": "#/components/schemas/User"
                     },
                     "token": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BadRequest",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message":{
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "InternalServerError",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message":{
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/show": {
+      "get": {
+        "summary": "Busca dados do usuário",
+        "description": "Essa rota será responsável por buscar dados do usuário logado",
+        "tags": ["Users"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "BadRequest",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message":{
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "InternalServerError",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message":{
                       "type": "string"
                     }
                   }
@@ -162,9 +263,6 @@
           }
         },
         "responses": {
-          "400": {
-            "description": "BadRequest"
-          },
           "201": {
             "description": "Created",
             "content": {
@@ -175,26 +273,98 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "BadRequest",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message":{
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message":{
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "InternalServerError",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message":{
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       },
       "get": {
-        "summary": "Buscar notas",
+        "summary": "Busca notas de um usuário",
         "description": "Essa rota será responsável por buscar todas as notas de um usuário",
         "tags": ["Notes"],
         "security": [{ "bearerAuth": [] }],
         "responses": {
-          "400": {
-            "description": "BadRequest"
-          },
-          "201": {
-            "description": "Index",
+          "200": {
+            "description": "OK",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "array",
                   "items": {
                     "$ref": "#/components/schemas/Note"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message":{
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "InternalServerError",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message":{
+                      "type": "string"
+                    }
                   }
                 }
               }
@@ -205,12 +375,19 @@
     },
     "/notes/search": {
       "get": {
-        "summary": "Procurar notas",
+        "summary": "Procura notas de um usuário",
         "description": "Essa rota será responsável por procurar as notas por uma query, a busca será feita por title ou body",
         "tags": ["Notes"],
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
+            "schema": {
+              "properties": {
+                "query":{
+                  "type": "string"
+                }
+              }
+            },
             "name": "query",
             "in": "query",
             "description": "Title ou Body para busca",
@@ -218,11 +395,8 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "BadRequest"
-          },
           "200": {
-            "description": "Search",
+            "description": "OK",
             "content": {
               "application/json": {
                 "schema": {
@@ -233,18 +407,70 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "BadRequest",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message":{
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message":{
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "InternalServerError",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message":{
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
     },
     "/notes/{id}": {
       "get": {
-        "summary": "Buscar nota por id",
+        "summary": "Busca nota por id",
         "description": "Essa rota será responsável por buscar uma nota por id",
         "tags": ["Notes"],
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
+            "schema":{
+              "properties": {
+                "id":{
+                  "type": "string"
+                }
+              }
+            },
             "name": "id",
             "in": "path",
             "description": "ID da nota para busca",
@@ -252,11 +478,8 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "BadRequest"
-          },
           "200": {
-            "description": "Show",
+            "description": "OK",
             "content": {
               "application/json": {
                 "schema": {
@@ -265,11 +488,71 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "BadRequest",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message":{
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message":{
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "BadRequest",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message":{
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "InternalServerError",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message":{
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       },
-      "patch": {
-        "summary": "Atualizar nota por id",
+      "put": {
+        "summary": "Atualiza nota por id",
         "description": "Essa rota será responsável por atualizar uma nota por id",
         "tags": ["Notes"],
         "security": [{ "bearerAuth": [] }],
@@ -300,6 +583,13 @@
         },
         "parameters": [
           {
+            "schema":{
+              "properties": {
+                "id":{
+                  "type": "string"
+                }
+              }
+            },
             "name": "id",
             "in": "path",
             "description": "ID da nota para atualização",
@@ -307,16 +597,73 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "BadRequest"
-          },
           "200": {
-            "description": "Update",
+            "description": "OK",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "$ref": "#/components/schemas/Note"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BadRequest",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message":{
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message":{
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "BadRequest",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message":{
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "InternalServerError",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message":{
+                      "type": "string"
+                    }
+                  }
                 }
               }
             }
@@ -330,6 +677,13 @@
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
+            "schema":{
+              "properties": {
+                "id":{
+                  "type": "string"
+                }
+              }
+            },
             "name": "id",
             "in": "path",
             "description": "ID da nota para exclusão",
@@ -337,16 +691,733 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "BadRequest"
+          "204": {
+            "description": "NoContent"
           },
+          "400": {
+            "description": "BadRequest",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message":{
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message":{
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "BadRequest",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message":{
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "InternalServerError",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message":{
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/notes/changeStatus/{id}": {
+      "put": {
+        "summary": "Altera o status de uma nota",
+        "description": "Essa rota será responsável por altera o status de uma nota por id",
+        "tags": ["Notes"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "schema":{
+              "properties": {
+                "id":{
+                  "type": "string"
+                }
+              }
+            },
+            "name": "id",
+            "in": "path",
+            "description": "ID da nota para alterar o status",
+            "required": true
+          }
+        ],
+        "responses": {
           "200": {
-            "description": "Delete",
+            "description": "OK",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "$ref": "#/components/schemas/Note"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BadRequest",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message":{
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message":{
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "BadRequest",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message":{
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "InternalServerError",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message":{
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+    },
+    "/notes/changeVisibility/{id}": {
+      "put": {
+        "summary": "Altera a visibilidade de uma nota",
+        "description": "Essa rota será responsável por alterar a visibilidade de uma nota por id",
+        "tags": ["Notes"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "schema":{
+              "properties": {
+                "id":{
+                  "type": "string"
+                }
+              }
+            },
+            "name": "id",
+            "in": "path",
+            "description": "ID da nota para alterar o visibilidade",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Note"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BadRequest",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message":{
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message":{
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "BadRequest",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message":{
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "InternalServerError",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message":{
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+    },
+    "/comments": {
+      "post": {
+        "summary": "Cadastro de um comentário",
+        "description": "Essa rota será responsável por cadastrar um novo comentário",
+        "tags": ["Comments"],
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "body": {
+                    "type": "string"
+                  },
+                  "noteId":{
+                    "type": "string"
+                  }
+                }
+              },
+              "examples": {
+                "note": {
+                  "value": {
+                    "body": "corpo do comentário",
+                    "noteId": "id da nota"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Comment"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BadRequest",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message":{
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message":{
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "InternalServerError",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message":{
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/comments/note/{noteId}": {
+      "get": {
+        "summary": "Busca comentários de uma nota",
+        "description": "Essa rota será responsável por procurar os comentários de uma nota",
+        "tags": ["Comments"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "schema":{
+              "properties": {
+                "noteId":{
+                  "type": "string"
+                }
+              }
+            },
+            "name": "noteId",
+            "in": "path",
+            "description": "ID da nota para buscar os comentários",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Comment"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BadRequest",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message":{
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message":{
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "InternalServerError",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message":{
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/comments/{id}": {
+      "get": {
+        "summary": "Busca comentário por id",
+        "description": "Essa rota será responsável por buscar um comentário por id",
+        "tags": ["Comments"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "schema":{
+              "properties": {
+                "id":{
+                  "type": "string"
+                }
+              }
+            },
+            "name": "id",
+            "in": "path",
+            "description": "ID do comentário para busca",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Comment"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BadRequest",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message":{
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message":{
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "BadRequest",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message":{
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "InternalServerError",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message":{
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Atualiza comentário por id",
+        "description": "Essa rota será responsável por atualizar um comentário",
+        "tags": ["Comments"],
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string"
+                  },
+                  "body": {
+                    "type": "string"
+                  }
+                }
+              },
+              "examples": {
+                "note": {
+                  "value": {
+                    "body": "corpo do comentário"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "schema":{
+              "properties": {
+                "id":{
+                  "type": "string"
+                }
+              }
+            },
+            "name": "id",
+            "in": "path",
+            "description": "ID do comentário para atualização",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Comment"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BadRequest",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message":{
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message":{
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "BadRequest",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message":{
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "InternalServerError",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message":{
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Deleta comentário por id",
+        "description": "Essa rota será responsável por apagar um comentário",
+        "tags": ["Comments"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "schema":{
+              "properties": {
+                "id":{
+                  "type": "string"
+                }
+              }
+            },
+            "name": "id",
+            "in": "path",
+            "description": "ID do comentário para exclusão",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "NoContent"
+          },
+          "400": {
+            "description": "BadRequest",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message":{
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message":{
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "BadRequest",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message":{
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "InternalServerError",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message":{
+                      "type": "string"
+                    }
+                  }
                 }
               }
             }
@@ -368,9 +1439,6 @@
           },
           "email": {
             "type": "string"
-          },
-          "password": {
-            "type": "string"
           }
         }
       },
@@ -388,6 +1456,45 @@
           },
           "author": {
             "type": "string"
+          },
+          "done": {
+            "type": "boolean"
+          },
+          "public": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "Datetime"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "Datetime"
+          }
+        }
+      },
+      "Comment": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string"
+          },
+          "body": {
+            "type": "string"
+          },
+          "note": {
+            "type": "string"
+          },
+          "user": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "Datetime"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "Datetime"
           }
         }
       }

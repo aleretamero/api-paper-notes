@@ -20,7 +20,7 @@ export class UserService implements IUserService {
 
     if (userEmailAlreadyExists)
       throw new BadRequest(
-        `The requested email: ${createUserDto.email} is already registered in our database.`,
+        `The requested email: ${createUserDto.email} is already registered in our database`,
       );
 
     createUserDto.password = await bcrypt.hash(createUserDto.password, 10);
