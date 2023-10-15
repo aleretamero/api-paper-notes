@@ -1,15 +1,18 @@
 import { CreateCommentDto } from "../dtos/CreateCommentDto";
+import { ReturnCommentDto } from "../dtos/ReturnCommentDto";
 import { UpdateCommentDto } from "../dtos/UpdateCommentDto";
-import { CommentEntity } from "../entity/CommentEntity";
 
 export interface ICommentService {
-  create: (createCommentDto: CreateCommentDto) => Promise<CommentEntity>;
+  create: (createCommentDto: CreateCommentDto) => Promise<ReturnCommentDto>;
 
-  findAllByNoteId: (noteId: string) => Promise<CommentEntity[]>;
+  findAllByNoteId: (noteId: string) => Promise<ReturnCommentDto[]>;
 
-  findById: (id: string) => Promise<CommentEntity>;
+  findById: (id: string) => Promise<ReturnCommentDto>;
 
-  update: (id: string, updateCommentDto: UpdateCommentDto) => Promise<CommentEntity>;
+  update: (
+    id: string,
+    updateCommentDto: UpdateCommentDto,
+  ) => Promise<ReturnCommentDto>;
 
-  delete: (id: string) => Promise<CommentEntity>;
+  delete: (id: string) => Promise<ReturnCommentDto>;
 }
