@@ -3,6 +3,6 @@ export interface UserEntity {
   name: string;
   email: string;
   password: string;
-  created_at: Date;
-  updated_at: Date;
+  createdAt: Date;
+  updatedAt: Date;
 }

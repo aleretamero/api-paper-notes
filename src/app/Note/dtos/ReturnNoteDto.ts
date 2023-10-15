@@ -15,7 +15,7 @@ export class ReturnNoteDto {
     this.title = note.title;
     this.body = note.body;
     this.author = note.author;
-    this.createdAt = note.created_at;
-    this.updatedAt = note.updated_at;
+    this.createdAt = note.createdAt;
+    this.updatedAt = note.updatedAt;
   }
 }

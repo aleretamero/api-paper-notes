@@ -5,7 +5,7 @@ export interface NoteEntity {
   _id: string;
   title: string;
   body: string;
-  created_at: Date;
-  updated_at: Date;
+  createdAt: Date;
+  updatedAt: Date;
   author: UserEntity | ObjectId;
 }
