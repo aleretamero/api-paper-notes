@@ -10,11 +10,19 @@ import { IUserRepository } from "./interfaces/IUserRepository";
 import { IUserService } from "./interfaces/IUserService";
 import { NotFound } from "../../helpers/classes/NotFound";
 import { BadRequest } from "../../helpers/classes/BadRequest";
+import { UserEntity } from "./entity/UserEntity";
 
 export class UserService implements IUserService {
   constructor(private readonly userRepository: IUserRepository) {}
 
   create = async (createUserDto: CreateUserDto): Promise<ReturnUserDto> => {
+    const userEmailAlreadyExists = await this.findByEmail(createUserDto.email);
+
+    if (userEmailAlreadyExists)
+      throw new BadRequest(
+        `The requested email: ${createUserDto.email} is already registered in our database.`,
+      );
+
     createUserDto.password = await bcrypt.hash(createUserDto.password, 10);
 
     const user = await this.userRepository.create(createUserDto);
@@ -27,15 +35,14 @@ export class UserService implements IUserService {
 
     if (!user) throw new NotFound(`User: _id ${id} not found!`);
 
-    return new ReturnUserDto(user)
+    return new ReturnUserDto(user);
   };
-
 
   login = async ({
     email,
     password,
   }: LoginUserDto): Promise<ReturnLoginDto> => {
-    const user = await this.userRepository.findByEmail(email);
+    const user = await this.findByEmail(email);
 
     if (!user) throw new BadRequest("Invalid username or password");
 
@@ -50,5 +57,11 @@ export class UserService implements IUserService {
     });
 
     return new ReturnLoginDto(user, token);
+  };
+
+  private readonly findByEmail = async (
+    email: string,
+  ): Promise<UserEntity | null> => {
+    return await this.userRepository.findByEmail(email);
   };
 }
