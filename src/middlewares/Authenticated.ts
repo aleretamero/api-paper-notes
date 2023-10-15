@@ -27,14 +27,12 @@ class Authenticated {
 
       const payload = this.isValidToken(token);
 
-      if (!payload) throw new Unauthorized("Unauthorized: Invalid token.");
+      if (!payload) throw new Unauthorized("Unauthorized: Invalid token");
 
       const isValidUser = await this.isValidUser(payload);
 
       if (!isValidUser) {
-        throw new Unauthorized(
-          "Unauthorized: Please log in again to continue.",
-        );
+        throw new Unauthorized("Unauthorized: Please log in again to continue");
       }
 
       req.userId = payload._id;

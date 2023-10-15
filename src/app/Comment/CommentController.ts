@@ -15,12 +15,13 @@ export class CommentController implements ICommentController {
   ): Promise<void> => {
     try {
       const userId = req.userId!;
-      const createCommentDto = {
-        ...createCommentSchema.parse(req.body),
-        user: userId,
-      };
+      const { body, noteId } = createCommentSchema.parse(req.body);
 
-      const comment = await this.commentService.create({ ...createCommentDto });
+      const comment = await this.commentService.create({
+        body,
+        user: userId,
+        note: noteId,
+      });
 
       res.status(201).json(comment);
     } catch (error) {

@@ -37,11 +37,10 @@ export class NoteService implements INoteService {
 
   findById = async (noteId: string, userId: string): Promise<ReturnNoteDto> => {
     const note = await this.noteRepository.findById(noteId);
-
     if (!note) throw new NotFound(`Note: _id ${noteId} not found!`);
 
-    if (!note.public && !this.isOwner(note, userId))
-      throw new Unauthorized("Permission denied");
+    const isOwner = await this.isOwner(noteId, userId);
+    if (!note.public && !isOwner) throw new Unauthorized("Permission denied");
 
     return new ReturnNoteDto(note);
   };
@@ -51,7 +50,8 @@ export class NoteService implements INoteService {
     userId: string,
     updateNoteDto: UpdateNoteDto,
   ): Promise<ReturnNoteDto> => {
-    await this.findById(noteId, userId);
+    const isOwner = await this.isOwner(noteId, userId);
+    if (!isOwner) throw new Unauthorized("Permission denied");
 
     const note = await this.noteRepository.update(noteId, updateNoteDto);
 
@@ -62,6 +62,9 @@ export class NoteService implements INoteService {
     noteId: string,
     userId: string,
   ): Promise<ReturnNoteDto> => {
+    const isOwner = await this.isOwner(noteId, userId);
+    if (!isOwner) throw new Unauthorized("Permission denied");
+
     const status = (await this.findById(noteId, userId)).done;
 
     const note = await this.noteRepository.changeStatus(noteId, !status);
@@ -73,6 +76,9 @@ export class NoteService implements INoteService {
     noteId: string,
     userId: string,
   ): Promise<ReturnNoteDto> => {
+    const isOwner = await this.isOwner(noteId, userId);
+    if (!isOwner) throw new Unauthorized("Permission denied");
+
     const visibility = (await this.findById(noteId, userId)).public;
 
     const note = await this.noteRepository.changeVisibility(
@@ -84,15 +90,22 @@ export class NoteService implements INoteService {
   };
 
   delete = async (noteId: string, userId: string): Promise<ReturnNoteDto> => {
-    await this.findById(noteId, userId);
+    const isOwner = await this.isOwner(noteId, userId);
+    if (!isOwner) throw new Unauthorized("Permission denied");
 
     const note = (await this.noteRepository.delete(noteId)) as NoteEntity;
 
     return new ReturnNoteDto(note);
   };
 
-  isOwner = (note: NoteEntity, userId: string): boolean => {
-    if (JSON.stringify(userId) === JSON.stringify(note.author)) return true;
+  private readonly isOwner = async (
+    noteId: string,
+    userId: string,
+  ): Promise<boolean> => {
+    const note = await this.noteRepository.findById(noteId);
+
+    if (note && JSON.stringify(userId) === JSON.stringify(note.author))
+      return true;
     else return false;
   };
 }

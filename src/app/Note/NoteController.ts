@@ -15,11 +15,14 @@ export class NoteController implements INoteController {
     next: NextFunction,
   ): Promise<void> => {
     try {
-      const author = req.userId!;
+      const userId = req.userId!;
+      const { title, body } = createNoteSchema.parse(req.body);
 
-      const createNoteDto = { ...createNoteSchema.parse(req.body), author };
-
-      const note = await this.noteService.create({ ...createNoteDto, author });
+      const note = await this.noteService.create({
+        title,
+        body,
+        author: userId,
+      });
 
       res.status(201).json(note);
     } catch (error) {
