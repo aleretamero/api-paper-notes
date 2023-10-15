@@ -1,12 +1,11 @@
 import { ErrorRequestHandler } from "express";
 import { CustomError } from "../helpers/classes/CustomError";
 import { ZodError } from "zod";
-import { MongooseError } from "mongoose";
 
 class ErrorHandler {
   readonly errorHandler: ErrorRequestHandler = async (
     error,
-    req,
+    _req,
     res,
     next,
   ) => {
@@ -27,12 +26,8 @@ class ErrorHandler {
       return res.status(400).json({ errors: zodErrors });
     }
 
-    if (error instanceof MongooseError) {
-      return res.status(500).json({ error: error.message });
-    }
-
     if (error) {
-      return res.status(500).send({ error: error.message });
+      return res.status(500).json({ error: error.message });
     }
 
     next();
