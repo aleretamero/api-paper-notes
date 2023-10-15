@@ -6,6 +6,7 @@ import { userService } from "../app/User/UserModule";
 import { IUserService } from "../app/User/interfaces/IUserService";
 
 import { ReturnUserDto } from "../app/User/dtos/ReturnUserDto";
+import { Unauthorized } from "../helpers/classes/Unauthorized";
 
 class Authenticated {
   constructor(private readonly userService: IUserService) {}
@@ -26,12 +27,14 @@ class Authenticated {
 
       const payload = this.isValidToken(token);
 
-      if (!payload) throw new Error("Unauthorized: Invalid token.");
+      if (!payload) throw new Unauthorized("Unauthorized: Invalid token.");
 
       const isValidUser = await this.isValidUser(payload);
 
       if (!isValidUser) {
-        throw new Error("Unauthorized: Please log in again to continue.");
+        throw new Unauthorized(
+          "Unauthorized: Please log in again to continue.",
+        );
       }
 
       req.userId = payload._id;

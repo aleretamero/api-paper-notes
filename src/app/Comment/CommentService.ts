@@ -1,3 +1,4 @@
+import { NotFound } from "../../helpers/classes/NotFound";
 import { CreateCommentDto } from "./dtos/CreateCommentDto";
 import { UpdateCommentDto } from "./dtos/UpdateCommentDto";
 
@@ -19,7 +20,7 @@ export class CommentService implements ICommentService {
   findById = async (id: string): Promise<CommentEntity> => {
     const note = await this.noteRepository.findById(id);
 
-    if (!note) throw new Error(`Comment: _id ${id} not found!`);
+    if (!note) throw new NotFound(`Comment: _id ${id} not found!`);
 
     return note;
   };

@@ -1,3 +1,5 @@
+import { NotFound } from "../../helpers/classes/NotFound";
+import { Unauthorized } from "../../helpers/classes/Unauthorized";
 import { CreateNoteDto } from "./dtos/CreateNoteDto";
 import { UpdateNoteDto } from "./dtos/UpdateNoteDto";
 
@@ -27,9 +29,10 @@ export class NoteService implements INoteService {
   findById = async (noteId: string, userId: string): Promise<NoteEntity> => {
     const note = await this.noteRepository.findById(noteId);
 
-    if (!note) throw new Error(`Note: _id ${noteId} not found!`);
+    if (!note) throw new NotFound(`Note: _id ${noteId} not found!`);
 
-    if (!this.isOwner(note, userId)) throw new Error("Permission denied");
+    if (!this.isOwner(note, userId))
+      throw new Unauthorized("Permission denied");
 
     return note;
   };
