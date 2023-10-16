@@ -186,6 +186,7 @@
         "summary": "Busca dados do usuário",
         "description": "Essa rota será responsável por buscar dados do usuário logado",
         "tags": ["Users"],
+        "security": [{ "bearerAuth": [] }],
         "responses": {
           "200": {
             "description": "OK",
