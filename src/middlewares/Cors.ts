@@ -27,7 +27,10 @@ class Cors {
     }
 
     if (this.NODE_ENV === "production") {
-      return ["https://client-paper-notes.vercel.app"];
+      return [
+        "https://client-paper-notes.vercel.app",
+        "https://api-paper-notes.onrender.com/",
+      ];
     }
 
     return [];
