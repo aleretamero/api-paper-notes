@@ -22,6 +22,8 @@ class Cors {
   }
 
   private getOrigins() {
+    console.log(this.NODE_ENV);
+
     if (this.NODE_ENV === "development") {
       return ["http://localhost:3333", "http://localhost:5173"];
     }
