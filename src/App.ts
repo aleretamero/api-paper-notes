@@ -10,6 +10,9 @@ import { userRouter } from "./app/User/UserRouter";
 import { noteRouter } from "./app/Note/NoteRouter";
 import { commentRouter } from "./app/Comment/CommentRouter";
 
+import swaggerUi from "swagger-ui-express";
+import swaggerDocs from "./swagger.json";
+
 class App {
   public readonly app: Express;
 
@@ -32,6 +35,7 @@ class App {
   private middlewares(): void {
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
+    this.app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
     this.app.use(express.static(resolve(__dirname, "..", "public")));
     this.app.use(cors(corsOptions));
   }
