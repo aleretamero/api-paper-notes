@@ -8,8 +8,7 @@
     "dev": "nodemon --exec ts-node ./src/server.ts",
     "lint": "eslint ./src",
     "build": "tsc && npm run copy-assets",
-    "copy-assets": "ts-node tools/copyAssets.ts",
-    "vercel-build": "npm run build"
+    "copy-assets": "ts-node tools/copyAssets.ts"
   },
   "keywords": [],
   "author": "",
