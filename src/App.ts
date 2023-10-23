@@ -22,14 +22,7 @@ class App {
   }
 
   private routes(): void {
-    this.app.get("/", (_req, res) => {
-      if (process.env.NODE_ENV !== "production") {
-        return res.render(resolve(__dirname, "views"));
-      }
-
-      res.sendFile(resolve(__dirname, "views", "index.html"));
-    });
-
+    this.app.get("/", (_req, res) => res.render(resolve(__dirname, "views")));
     this.app.use("/users", userRouter);
     this.app.use("/notes", noteRouter);
     this.app.use("/comments", commentRouter);
