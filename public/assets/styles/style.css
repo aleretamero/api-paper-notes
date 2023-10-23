@@ -4,18 +4,6 @@
   box-sizing: border-box;
 }
 
-@media (max-width: 64rem) {
-  html {
-    font-size: 93.75%;
-  }
-}
-
-@media (max-width: 45rem) {
-  html {
-    font-size: 87.5%;
-  }
-}
-
 body {
   font-family: "Poppins", sans-serif;
   color: #f6fbf4;
@@ -29,16 +17,6 @@ svg {
 .auto-padding {
   padding-left: max(calc((100% - 80rem) / 2), 2rem);
   padding-right: max(calc((100% - 80rem) / 2), 2rem);
-
-  @media (max-width: 48rem) {
-    padding-left: max(calc((100% - 80rem) / 2), 1rem);
-    padding-right: max(calc((100% - 80rem) / 2), 1rem);
-  }
-
-  @media (max-width: 30rem) {
-    padding-left: max(calc((100% - 80rem) / 2), 0.5rem);
-    padding-right: max(calc((100% - 80rem) / 2), 0.5rem);
-  }
 }
 
 .main {
@@ -63,11 +41,6 @@ svg {
   width: 100%;
   padding: 3rem;
   gap: 3rem;
-
-  @media (max-width: 60rem) {
-    flex-direction: column;
-    justify-content: center;
-  }
 }
 
 .content {
@@ -75,76 +48,43 @@ svg {
   display: flex;
   flex-direction: column;
   gap: 2rem;
+}
 
-  @media (max-width: 60rem) {
-    justify-content: center;
-    text-align: center;
-  }
+.content h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
 
-  & h1 {
-    font-size: 3rem;
-    font-weight: 700;
-    text-transform: uppercase;
-  }
+.content p {
+  font-size: 1.5rem;
+  font-weight: 700;
+  max-width: 32.8125rem;
+}
 
-  & p {
-    font-size: 1.5rem;
-    font-weight: 700;
-    max-width: 32.8125rem;
-  }
+.content a {
+  color: #6889a6;
+  font-size: 1.5rem;
+  font-weight: 700;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1rem;
+}
 
-  & a {
-    color: #6889a6;
-    font-size: 1.5rem;
-    font-weight: 700;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 1rem;
-
-    & img {
-      width: 60px;
-      height: 60px;
-    }
-
-    @media (max-width: 60rem) {
-      justify-content: center;
-    }
-  }
-
-  @media (max-width: 48rem) {
-    & h1 {
-      font-size: 2.5rem;
-    }
-    & p {
-      font-size: 1.3rem;
-    }
-    & a {
-      font-size: 1.3rem;
-    }
-  }
-
-  @media (max-width: 30rem) {
-    & h1 {
-      font-size: 2rem;
-    }
-    & p {
-      font-size: 1rem;
-    }
-    & a {
-      font-size: 1rem;
-    }
-  }
+.content a img {
+  width: 60px;
+  height: 60px;
 }
 
 .content-image {
   max-width: 398px;
   flex: 1;
+}
 
-  & img {
-    display: block;
-    width: 100%;
-  }
+.content-image img {
+  display: block;
+  width: 100%;
 }
 
 .technologies {
@@ -155,24 +95,12 @@ svg {
   border-radius: 1rem;
   background: #030712;
   width: 100%;
+}
 
-  & h2 {
-    font-size: 2rem;
-    font-weight: 700;
-    text-align: center;
-  }
-
-  @media (max-width: 48rem) {
-    & h2 {
-      font-size: 1.8rem;
-    }
-  }
-
-  @media (max-width: 30rem) {
-    & h2 {
-      font-size: 1.5rem;
-    }
-  }
+.technologies h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
 }
 
 .list-technologies {
@@ -181,15 +109,15 @@ svg {
   justify-content: center;
   align-items: center;
   gap: 3rem;
+}
 
-  & li {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 1rem;
-    font-weight: 700;
-  }
+.list-technologies li {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  font-weight: 700;
 }
 
 .footer {
@@ -207,17 +135,85 @@ svg {
 .social-medias {
   display: flex;
   gap: 1rem;
+}
 
-  & svg {
-    width: 40px;
-    height: 40px;
+.social-medias svg {
+  width: 40px;
+  height: 40px;
+}
 
-    & path {
-      transition: 0.2s;
-    }
+.social-medias svg path {
+  transition: 0.2s;
+}
 
-    &:hover path {
-      fill: #6889a6;
-    }
+.social-medias svg:hover path {
+  fill: #6889a6;
+}
+
+@media (max-width: 60rem) {
+  html {
+    font-size: 93.75%;
+  }
+
+  .content {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .content a {
+    justify-content: center;
+  }
+
+  .hero {
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 48rem) {
+  html {
+    font-size: 87.5%;
+  }
+
+  .auto-padding {
+    padding-left: max(calc((100% - 80rem) / 2), 1rem);
+    padding-right: max(calc((100% - 80rem) / 2), 1rem);
+  }
+
+  .content h1 {
+    font-size: 2.5rem;
+  }
+  .content p {
+    font-size: 1.3rem;
+  }
+  .content a {
+    font-size: 1.3rem;
+  }
+
+  .technologies h2 {
+    font-size: 1.8rem;
+  }
+}
+
+@media (max-width: 30rem) {
+  .auto-padding {
+    padding-left: max(calc((100% - 80rem) / 2), 0.5rem);
+    padding-right: max(calc((100% - 80rem) / 2), 0.5rem);
+  }
+
+  .content h1 {
+    font-size: 2rem;
+  }
+
+  .content p {
+    font-size: 1rem;
+  }
+
+  .content a {
+    font-size: 1rem;
+  }
+
+  .technologies h2 {
+    font-size: 1.5rem;
   }
 }
