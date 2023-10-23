@@ -148,7 +148,7 @@ svg {
   gap: 3rem;
   padding: 3rem;
   border-radius: 1rem;
-  background: rgba(26, 26, 26, 0.9);
+  background: #030712;
   width: 100%;
 
   & h2 {
@@ -193,7 +193,7 @@ svg {
   justify-content: center;
   align-items: center;
   gap: 2rem;
-  background: #1a1a1a;
+  background: #030712;
   padding-top: 2rem;
   padding-bottom: 2rem;
   text-align: center;
