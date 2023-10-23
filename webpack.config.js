@@ -7,11 +7,10 @@ const nodeExternals = require("webpack-node-externals");
 module.exports = {
   plugins: [
     new HtmlBundlerWebpackPlugin({
-      entry: { import: "src/views/index.ejs" },
+      entry: { index: "src/views/index.ejs" }, // => dist/views/index.html
       preprocessor: "ejs",
       preprocessorOptions: { views: ["src/views/includes"] },
-      outputPath: "views",
-      filename: "index.html",
+      outputPath: "views", // html output path relative by output.path
       minify: true,
     }),
   ],
@@ -20,7 +19,9 @@ module.exports = {
   target: "node",
   externals: [nodeExternals()],
 
-  entry: "./src/server.ts",
+  entry: {
+    "server": "./src/server.ts",
+  },
 
   module: {
     rules: [
@@ -33,7 +34,7 @@ module.exports = {
   },
 
   output: {
-    filename: "server.js",
+    filename: "[name].js",
     path: path.resolve(__dirname, "dist"),
   },
 
