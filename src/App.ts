@@ -15,15 +15,21 @@ class App {
 
   constructor() {
     this.app = express();
+    this.views();
     this.middlewares();
     this.routes();
     this.errorHandler();
   }
 
   private routes(): void {
-    this.app.get("/", (_req, res) =>
-      res.sendFile(resolve(__dirname, "..", "public", "index.html")),
-    );
+    this.app.get("/", (_req, res) => {
+      if (process.env.NODE_ENV !== "production") {
+        return res.render(resolve(__dirname, "views"));
+      }
+
+      res.sendFile(resolve(__dirname, "views", "index.html"));
+    });
+
     this.app.use("/users", userRouter);
     this.app.use("/notes", noteRouter);
     this.app.use("/comments", commentRouter);
@@ -34,6 +40,11 @@ class App {
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use(express.static(resolve(__dirname, "..", "public")));
     this.app.use(cors(corsOptions));
+  }
+
+  private views(): void {
+    this.app.set("views", resolve(__dirname, "views"));
+    this.app.set("view engine", "ejs");
   }
 
   private errorHandler(): void {
