@@ -102,6 +102,11 @@ svg {
     align-items: center;
     gap: 1rem;
 
+    & img {
+      width: 60px;
+      height: 60px;
+    }
+
     @media (max-width: 60rem) {
       justify-content: center;
     }
