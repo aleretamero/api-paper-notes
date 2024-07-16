@@ -1,11 +1,8 @@
-import express, { Express } from "express";
-import { resolve } from "path";
-
+import express, { Express, Router } from "express";
 import cors from "cors";
+import { resolve } from "node:path";
 import { corsOptions } from "./middlewares/Cors";
-
 import { errorHandler } from "./middlewares/ErrorHandler";
-
 import { userRouter } from "./app/User/UserRouter";
 import { noteRouter } from "./app/Note/NoteRouter";
 import { commentRouter } from "./app/Comment/CommentRouter";
@@ -23,6 +20,7 @@ class App {
 
   private routes(): void {
     this.app.get("/", (_req, res) => res.render(resolve(__dirname, "views")));
+    this.app.get("/health", (_req, res) => res.json({ status: "ok" }));
     this.app.use("/users", userRouter);
     this.app.use("/notes", noteRouter);
     this.app.use("/comments", commentRouter);
