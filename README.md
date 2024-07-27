@@ -1,4 +1,4 @@
-# Projeto Ecommerce Next
+# Projeto Api Papers Notes
 
 ![preview](./public/preview.webp)
 
