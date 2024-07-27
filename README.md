@@ -1,4 +1,4 @@
-# Projeto Api Papers Notes
+# Projeto Api Paper Notes
 
 ![preview](./public/preview.webp)
 
