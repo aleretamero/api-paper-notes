@@ -9,7 +9,7 @@ const PORT = Number(process.env.PORT) ?? 3333;
 
 run()
   .then(() => {
-    app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+    app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
     app.listen(PORT, () => {
       console.log(`Server running on port ${PORT} 🔥`);

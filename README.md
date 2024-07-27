@@ -38,6 +38,60 @@ Este projeto trata-se de uma API REST para um sistema de gerenciamento e compart
 - [Swagger](https://swagger.io) - é uma estrutura de código aberto para a documentação, criação e teste de APIs REST.
 - [EJS](https://ejs.co) - é uma linguagem de modelagem de templates para geração dinâmica de conteúdo web com JavaScript embutido.
 
+## 📂 Esquema de pastas
+```
+./src
+├── @types
+│   └── express
+├── app
+│   ├── Comment
+│   │   ├── dtos
+│   │   ├── entity
+│   │   ├── interfaces
+│   │   └── schemas
+│   ├── Note
+│   │   ├── dtos
+│   │   ├── entity
+│   │   ├── interfaces
+│   │   └── schemas
+│   └── User
+│       ├── dtos
+│       ├── entity
+│       ├── interfaces
+│       └── schemas
+├── database
+│   └── models
+├── helpers
+│   ├── classes
+│   ├── regex
+│   └── schemas
+├── middlewares
+└── views
+    └── includes
+```
+
+## 📝 Resumo da Estrutura
+- **@types**: Contém definições de tipos personalizados para a aplicação, como para o express.
+- **app**: Contém subpastas para diferentes módulos da aplicação. Cada modulo (por exemplo, Comment, Note, User) tem suas próprias pastas:
+  - **modulo**
+    - **dtos**: Objetos de Transferência de Dados.
+    - **entity**: Entidades do banco de dados ou modelos.
+    - **interfaces**: Interfaces TypeScript para a entidade.
+    - **schemas**: Schemas de validação (por exemplo, para validação com class-validator).
+    - **modulo-route.ts**
+    - **modulo-controller.ts**
+    - **modulo-service.ts**
+    - **modulo-repository.ts**
+    - **modulo-factory.ts**
+- **database**: Contém modelos relacionados ao banco de dados.
+- **helpers**: Inclui utilitários e helpers para a aplicação:
+  - **classes**: Classes utilitárias ou de apoio.
+  - **regex**: Expressões regulares úteis.
+  - **schemas**: Schemas para validações de dados.
+- **middlewares**: Contém middlewares personalizados para a aplicação.
+- **views**: Contém arquivos de visualização e componentes visuais:
+  - **includes**: Arquivos e componentes incluídos nas visualizações.
+
 ## 🛠️ Modificando o projeto
 
 ### Siga as seguintes instruções para instalar e poder modificar o projeto em sua máquina:
@@ -48,7 +102,7 @@ Para baixar, executar e modificar o projeto, você precisa ter instalado em sua 
 
 - [Node](https://nodejs.org/en)
 - [Docker](https://www.docker.com/products/docker-desktop)
-- Um gerenciador de pacotes, como o [PNPM](https://pnpm.io), [Npm](https://nodejs.org/en/) ou [Yarn](https://classic.yarnpkg.com/lang/en/docs/install)
+- Um gerenciador de pacotes, como o [Npm](https://nodejs.org/en/)
 - [Git](https://git-scm.com/downloads)
 - Editor de código ou IDE, como o [VSCode](https://code.visualstudio.com/Download)
 
@@ -70,25 +124,24 @@ cd api_paper-notes
 
 ```bash
 npm install
-# ou
-pnpm install
-# ou
-yarn install
 ```
 
 
-4. Crie um arquivo `.env` na raiz do projeto e nele você devera inserir:
+4. Copie o arquivo `.env.example` e crie um arquivo `.env` na raiz do projeto colocando as variáveis com os valores corretos:
 ```env
-  PORT=
-  JWT_TOKEN=
-  DB_URI=
-  DB_NAME=
-  DB_USERNAME=
-  DB_PASSWORD=
-  NODE_ENV="development"
+  PORT=3333
+  NODE_ENV=development
+
+  JWT_TOKEN=secret
+
+  DB_URI=mongodb://root:root@localhost:27017
+  DB_NAME=paper-notes
+  DB_USERNAME=root
+  DB_PASSWORD=root
+
   MONGO_EXPRESS_USERNAME=$DB_USERNAME
   MONGO_EXPRESS_PASSWORD=$DB_PASSWORD
-  MONGO_EXPRESS_URL=mongodb://$DB_USERNAME:$DB_PASSWORD@mongo:$DB_PORT/
+  MONGO_EXPRESS_URL=mongodb://root:root@mongo:27017
 ```
 
  ***insira os valores das variáveis vazias.***
@@ -103,10 +156,6 @@ docker compose up -d
 
 ```bash
 npm run dev
-# ou
-pnpm dev
-# ou
-yarn dev
 ```
 
 ## Colaboradores 🤝🤝
