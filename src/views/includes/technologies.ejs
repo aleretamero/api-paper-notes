@@ -1,0 +1,11 @@
+<section class='technologies'>
+    <h2>Tecnologias utilizadas no projeto</h2>
+    <ul class='list-technologies'>
+        <% project.technologies.forEach((technology) => { %>
+        <li> <img src="<%= technology.iconColorUrl %>"
+                alt="<%= technology.name %>" /> <span>
+                <%= technology.name %>
+            </span> </li>
+        <% }); %>
+    </ul>
+</section>

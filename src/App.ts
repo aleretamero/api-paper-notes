@@ -1,4 +1,4 @@
-import express, { Express, Router } from "express";
+import express, { Express } from "express";
 import cors from "cors";
 import { resolve } from "node:path";
 import { corsOptions } from "./middlewares/Cors";
@@ -19,7 +19,32 @@ class App {
   }
 
   private routes(): void {
-    this.app.get("/", (_req, res) => res.render(resolve(__dirname, "views")));
+    this.app.get("/", async (_req, res) => {
+      const url = `${process.env.API_PORTFOLIO_URL}/projects/${process.env.API_PORTFOLIO_PROJECT_ID}`;
+      const token = process.env.API_PORTFOLIO_TOKEN;
+
+      try {
+        const response = await fetch(url, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) {
+          return res.status(500).send("Internal server error");
+        }
+
+        const project = await response.json();
+
+        res.render(resolve(__dirname, "views"), {
+          project,
+          yearCreatedAt: 2023,
+          currentYear: new Date().getFullYear(),
+        });
+      } catch (error) {
+        res.status(500).send("Internal server error");
+      }
+    });
     this.app.get("/health", (_req, res) => res.json({ status: "ok" }));
     this.app.use("/users", userRouter);
     this.app.use("/notes", noteRouter);

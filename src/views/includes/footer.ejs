@@ -54,13 +54,10 @@ c1.348,1.01,2.925,1.496,4.488,1.496c2.282,0,4.537-1.038,6.01-3.006L157.398,71.8C
     </a>
   </div>
   <p>
-    © Todos os direitos reservados. Alexandre Retamero 2023-<span id="year"
-      >2023</span
+    © Todos os direitos reservados. Alexandre Retamero <%= yearCreatedAt %>-<span id="year"
+      ><%= currentYear %></span
     >.
   </p>
 </footer>
-<script>
-  document.getElementById("year").innerText = new Date().getFullYear();
-</script>
 </body>
 </html>

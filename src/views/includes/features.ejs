@@ -1,0 +1,9 @@
+<section class='features'>
+    <h2>Funcionalidades</h2>
+    <ul class='list-features'>
+        <% project.features.forEach((feature) => { %>
+        <li> <strong><%= feature.name %></strong> <span><%= feature.description %></span>
+        </li>
+        <% }); %>
+    </ul>
+</section>
